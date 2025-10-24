@@ -1,0 +1,217 @@
+/* style.css - global styles for the Female Body Shape Visualizer MVP */
+
+/* --- Root colors & variables --- */
+:root{
+  --bg:#f7fafb;
+  --card:#ffffff;
+  --muted:#666;
+  --accent:#7c3aed;
+  --accent-2:#06b6d4;
+  --border:#e6e6e6;
+  --max-width:1100px;
+  --shadow: 0 6px 20px rgba(12,12,12,0.06);
+  --text:#121212;
+}
+
+/* --- Reset --- */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+body{background:var(--bg);color:var(--text);line-height:1.45}
+
+/* Header */
+.site-header{background:linear-gradient(90deg,#ffffff 0%, #f3f7ff 100%);border-bottom:1px solid var(--border)}
+.header-inner{max-width:var(--max-width);margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.logo{height:44px;width:44px;border-radius:8px}
+.brand-title{font-weight:600;font-size:1.05rem}
+.top-nav a{color:var(--muted);text-decoration:none;margin-left:14px;font-size:0.95rem}
+.top-nav a:hover{color:var(--text)}
+
+/* Ads placeholders */
+.ad{position:fixed;background:#fff;border:1px dashed #ddd;color:#666;text-align:center;padding:10px;border-radius:8px;z-index:999}
+.ad-left{left:12px;top:120px;width:120px;height:400px;display:none}
+.ad-right{right:12px;top:120px;width:120px;height:400px;display:none}
+.ad-bottom{position:fixed;left:0;right:0;bottom:0;height:90px;background:#fff;border-top:1px dashed #ddd;display:flex;align-items:center;justify-content:center;z-index:998;padding:4px}
+.ad-anchor-mobile{display:none}
+
+/* Page layout */
+.page-main{max-width:var(--max-width);margin:28px auto;display:grid;grid-template-columns:1fr 420px;gap:20px;padding:0 18px}
+.calculator-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.visual-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center}
+
+/* Controls */
+.controls{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:10px}
+.input-row{display:flex;align-items:center;gap:10px}
+.input-row label{width:110px}
+.input-row input{flex:1;padding:8px;border-radius:8px;border:1px solid var(--border);background:#fff}
+.hint{color:var(--muted);font-size:0.9rem}
+.btn{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.actions{display:flex;gap:10px}
+.result-card{background:#fbfdff;border-radius:8px;padding:12px;margin-top:8px;border:1px solid #eef2ff}
+.type-link{display:inline-block;margin-top:8px;color:var(--accent);text-decoration:none}
+.type-link:hover{text-decoration:underline}
+
+/* Viewer */
+.viewer3d{width:100%;height:480px;background:linear-gradient(180deg,#eef2f8,#ffffff);border-radius:8px;border:1px solid var(--border);margin-top:8px}
+
+/* Footer */
+.site-footer{margin-top:24px;padding:18px 0;background:transparent}
+.footer-inner{max-width:var(--max-width);margin:0 auto;padding:0 18px;text-align:center;color:var(--muted)}
+
+/* Responsive & mobile */
+@media(min-width:1100px){
+  .ad-left,.ad-right{display:block}
+  .page-main{grid-template-columns:1fr 420px}
+  .viewer3d{height:580px}
+  .ad-bottom{height:90px}
+}
+
+/* Tablet */
+@media(max-width:1099px){
+  .page-main{grid-template-columns:1fr 380px;padding:0 16px}
+  .viewer3d{height:420px}
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page-main {
+    grid-template-columns: 1fr;
+    padding: 0 14px;
+  }
+
+  /* Hide desktop ads */
+  .ad-left,
+  .ad-right {
+    display: none;
+  }
+
+  /* Bottom banner */
+  .ad-bottom {
+    height: 60px;
+    font-size: 0.85rem;
+  }
+
+  /* Floating anchor ad (mobile only) */
+  .ad-anchor-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    padding: 10px 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    color: #555;
+    font-size: 0.9rem;
+  }
+}
+/* ---------- Desktop ad spacing fix ---------- */
+@media (min-width: 1100px) {
+  /* Show both side ads */
+  .ad-left,
+  .ad-right {
+    display: block;
+  }
+
+  /* Shrink and center main content to avoid overlap */
+  .page-main {
+    /* Instead of full width, leave space for ads */
+    max-width: calc(100% - 300px); /* 150px margin each side */
+    margin-left: 150px;
+    margin-right: 150px;
+
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 20px;
+    padding: 0 18px;
+  }
+
+  .calculator-card,
+  .visual-card {
+    box-sizing: border-box;
+    word-break: break-word;
+  }
+
+  /* Optional: increase gap between ad and footer */
+  .site-footer {
+    padding-bottom: 100px;
+  }
+}
+/* Result image styling – postcard size */
+#resultImage {
+  display: none;
+  width: 100%;
+  max-width: 600px;      /* postcard width */
+  aspect-ratio: 3 / 2;   /* postcard 6x4 ratio */
+  object-fit: cover;     /* crop nicely if needed */
+  border-radius: 12px;
+  margin-top: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+#resultImage {
+  max-width: 100%;
+  aspect-ratio: 3 / 2;
+}
+/* --- Dropdown menu for Body Types --- */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 8px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 240px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 999;
+  text-align: left;
+  padding: 8px 0;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f2f4f8;
+  color: var(--accent);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  color: var(--accent);
+}
+
+/* --- Fix for body type pages layout --- */
+.bodytype-page-main {
+  max-width: var(--max-width);
+  margin: 28px auto;
+  display: block;
+  padding: 0 18px;
+}
