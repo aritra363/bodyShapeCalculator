@@ -157,11 +157,11 @@ if (calcBtn) {
     const result = detectBodyType(bust, waist, hips);
     resultTitle.textContent = `Your Body Type: ${result.type}`;
     resultDesc.textContent = result.desc;
-    bodyTypeLink.href = `https://demo.example.com/body-types/${result.type.toLowerCase()}-body-shape.html`;
+    bodyTypeLink.href = `https://femalebodyshape.infinityfree.me/body-types/${result.type.toLowerCase()}-body-shape.html`;
     bodyTypeLink.textContent = `Learn more about the ${result.type} Body Shape →`;
 
     const imgName = result.type.replace(/\s+/g, "-") + ".png";
-    const imgPath = `assets/img/bodytypes/${imgName}`;
+    const imgPath = `https://femalebodyshape.infinityfree.me/assets/img/bodytypes/${imgName}`;
     resultImg.src = imgPath;
     resultImg.alt = `${result.type} body shape image`;
     resultImg.style.display = "block";
