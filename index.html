@@ -59,9 +59,14 @@
   </script>
 
   <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- Three.js is left as-is (unused by paper.js solution but harmless) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-<!-- Google tag (gtag.js) -->
+
+  <!-- Paper.js for 2D vector silhouettes -->
+  <script src="https://unpkg.com/paper/dist/paper-full.min.js"></script>
+
+  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVVES6RQZC"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -97,7 +102,7 @@
             <a href="https://femalebodyshape.infinityfree.me/body-types/pear-body-shape.html">Pear Body Shape</a>
             <a href="https://femalebodyshape.infinityfree.me/body-types/hourglass-body-shape.html">Hourglass Body Shape</a>
             <a href="https://femalebodyshape.infinityfree.me/body-types/rectangle-body-shape.html">Rectangle Body Shape</a>
-            <a href="https://femalebodyshape.infinityfree.me/body-types/spoon-body-shape.html">Spoon Body Shape</a>
+            <a href="https://femalebodyshape.infinityfree.me/body-types/spoon-body-shape.html">Spoon body shape</a>
             <a href="https://femalebodyshape.infinityfree.me/body-types/banana-body-shape.html">Banana Body Shape</a>
             <a href="https://femalebodyshape.infinityfree.me/body-types/bell-body-shape.html">Bell Body Shape</a>
             <a href="https://femalebodyshape.infinityfree.me/body-types/x-shape-body-shape.html">X Shape Body</a>
@@ -165,10 +170,17 @@
       </div>
     </section>
 
-    <!-- 3D Visualizer -->
+    <!-- 2D Visualizer (replaces 3D viewer) -->
     <section class="visual-card">
-      <h2 style="color:var(--accent)">3D Body Visualizer</h2>
-      <div id="viewer3d" class="viewer3d"></div>
+      <h2 style="color:var(--accent)">Body Visualizer — Front & Back</h2>
+      <div id="bodyVisualizer" class="visualizer">
+        <div class="view">
+          <img id="frontView" src="assets/models/default-front.png" alt="Front view" />
+        </div>
+        <div class="view">
+          <img id="backView" src="assets/models/default-back.png" alt="Back view" />
+        </div>
+      </div>
     </section>
   </main>
 

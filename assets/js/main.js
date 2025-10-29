@@ -1,8 +1,6 @@
-/* main.js – Body Shape Calculator & Visualizer */
+/* main.js – Body Shape Calculator & Dual Image Visualizer */
 
-let scene, camera, renderer, bodyMesh;
-
-// ---------- ELEMENTS ----------
+/* ========== ELEMENTS ========== */
 const heightEl = document.getElementById("height");
 const weightEl = document.getElementById("weight");
 const bustEl = document.getElementById("bust");
@@ -16,7 +14,10 @@ const bodyTypeLink = document.getElementById("bodyTypePageLink");
 const unitToggle = document.getElementById("unitToggle");
 const resultImg = document.getElementById("resultImage");
 
-// ---------- DEFAULTS ----------
+const frontView = document.getElementById("frontView");
+const backView = document.getElementById("backView");
+
+/* ========== DEFAULTS ========== */
 if (unitToggle) {
   unitToggle.value = "in";
   updateUnitLabels();
@@ -25,7 +26,7 @@ if (unitToggle) {
   if (el) el.step = "0.1";
 });
 
-// ---------- UNIT LABELS ----------
+/* ========== UNIT LABELS ========== */
 function updateUnitLabels() {
   const hints = document.querySelectorAll(".hint");
   if (!hints.length) return;
@@ -37,7 +38,7 @@ function updateUnitLabels() {
   hints[4].textContent = unit;
 }
 
-// ---------- AUTO CONVERT ----------
+/* ========== AUTO CONVERT ========== */
 if (unitToggle) {
   unitToggle.addEventListener("change", () => {
     const to = unitToggle.value;
@@ -55,7 +56,7 @@ if (unitToggle) {
   });
 }
 
-// ---------- BODY TYPE DETECTION ----------
+/* ========== BODY TYPE DETECTION ========== */
 function detectBodyType(bust, waist, hips) {
   const whr = waist / hips;
   let type = "Rectangle";
@@ -78,80 +79,73 @@ function detectBodyType(bust, waist, hips) {
   return { type, desc };
 }
 
-// ---------- 3D SETUP ----------
-function init3D() {
-  const container = document.getElementById("viewer3d");
-  if (!container) return;
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(
-    50,
-    container.clientWidth / container.clientHeight,
-    0.1,
-    1000
-  );
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  container.innerHTML = "";
-  container.appendChild(renderer.domElement);
+/* ========== IMAGE VISUALIZER (Front & Back) ========== */
+/* ========== IMAGE VISUALIZER (Front & Back) WITH FADE EFFECT ========== */
+function updateBodyVisualizer(bodyType) {
+  if (!frontView || !backView) return;
 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.9);
-  scene.add(ambient);
-  const dir = new THREE.DirectionalLight(0xffffff, 0.6);
-  dir.position.set(0, 1, 1);
-  scene.add(dir);
+  const basePath = "https://femalebodyshape.infinityfree.me/assets/models";
+  const typeName = bodyType.toLowerCase();
+  const frontImg = `${basePath}/${typeName}-front.png`;
+  const backImg = `${basePath}/${typeName}-back.png`;
 
-  const geometry = new THREE.CylinderGeometry(1, 1.1, 3, 24);
-  const material = new THREE.MeshStandardMaterial({
-    color: 0xffb6c1,
-    flatShading: true
-  });
-  bodyMesh = new THREE.Mesh(geometry, material);
-  scene.add(bodyMesh);
+  // Add fade-out class
+  frontView.classList.add("fade-out");
+  backView.classList.add("fade-out");
 
-  camera.position.z = 5;
-  window.addEventListener("resize", onResize);
-  animate();
+  // Preload new images
+  const front = new Image();
+  const back = new Image();
+  front.src = frontImg;
+  back.src = backImg;
+
+  front.onload = () => {
+    setTimeout(() => {
+      frontView.src = front.src;
+      frontView.alt = `${bodyType} body front view`;
+      frontView.classList.remove("fade-out");
+      frontView.classList.add("fade-in");
+    }, 200);
+  };
+
+  back.onload = () => {
+    setTimeout(() => {
+      backView.src = back.src;
+      backView.alt = `${bodyType} body back view`;
+      backView.classList.remove("fade-out");
+      backView.classList.add("fade-in");
+    }, 200);
+  };
+
+  // Remove fade-in after animation ends to allow re-trigger later
+  setTimeout(() => {
+    frontView.classList.remove("fade-in");
+    backView.classList.remove("fade-in");
+  }, 1000);
 }
 
-function onResize() {
-  const container = document.getElementById("viewer3d");
-  if (!container) return;
-  camera.aspect = container.clientWidth / container.clientHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth, container.clientHeight);
-}
 
-function animate() {
-  requestAnimationFrame(animate);
-  if (bodyMesh) bodyMesh.rotation.y += 0.005;
-  renderer.render(scene, camera);
-}
-
-function update3D(bust, waist, hips) {
-  if (!bodyMesh) return;
-  const avg = (bust + waist + hips) / 3;
-  const bustRatio = bust / avg;
-  const waistRatio = waist / avg;
-  const hipRatio = hips / avg;
-  bodyMesh.scale.set(hipRatio * 1.1, 1, bustRatio * 1.1);
-  bodyMesh.material.color.setHSL(0.95 - waistRatio * 0.2, 0.6, 0.65);
-}
-
-// ---------- CALCULATE ----------
+/* ========== CALCULATE BUTTON ========== */
 if (calcBtn) {
   calcBtn.addEventListener("click", () => {
     let bust = parseFloat(bustEl.value);
     let waist = parseFloat(waistEl.value);
     let hips = parseFloat(hipsEl.value);
+    let heightVal = parseFloat(heightEl.value);
+
     if (!bust || !waist || !hips) {
       alert("Please enter bust, waist, and hips values.");
       return;
     }
 
-    if (unitToggle.value === "cm") {
+    // Convert units if cm
+    if (unitToggle && unitToggle.value === "cm") {
       bust /= 2.54;
       waist /= 2.54;
       hips /= 2.54;
+      if (heightVal) heightVal = (heightVal / 2.54) / 12;
+    } else {
+      if (heightVal && heightVal >= 8) heightVal = heightVal / 12;
     }
 
     const result = detectBodyType(bust, waist, hips);
@@ -166,24 +160,39 @@ if (calcBtn) {
     resultImg.alt = `${result.type} body shape image`;
     resultImg.style.display = "block";
 
-    update3D(bust, waist, hips);
+    // Smooth scroll to result
+    setTimeout(() => {
+      bodyVisualizer.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 300);
+    setTimeout(() => {
+      resultImg.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 3000);
+
+    // Update front/back visualizer
+    updateBodyVisualizer(result.type);
   });
 }
 
-// ---------- RESET ----------
+/* ========== RESET BUTTON ========== */
 if (resetBtn) {
   resetBtn.addEventListener("click", () => {
     [bustEl, waistEl, hipsEl].forEach(i => (i.value = ""));
     resultTitle.textContent = "Your body type will appear here";
-    resultDesc.textContent = "Enter values and click Calculate to see your classification.";
+    resultDesc.textContent =
+      "Enter values and click Calculate to see your classification.";
     bodyTypeLink.href = "#";
     resultImg.src = "";
     resultImg.style.display = "none";
-    update3D(1, 1, 1);
+
+    // Reset visualizer to default placeholder
+    if (frontView && backView) {
+      frontView.src = "assets/models/default-front.png";
+      backView.src = "assets/models/default-back.png";
+    }
   });
 }
 
-// ---------- NAVIGATION BEHAVIOR ----------
+/* ========== NAVIGATION & DROPDOWNS ========== */
 document.addEventListener("DOMContentLoaded", () => {
   const mq = window.matchMedia("(max-width: 768px)");
   const desktopNav = document.querySelector(".desktop-nav");
@@ -203,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleMenu();
   mq.addListener(toggleMenu);
 
-  // mobile dropdown tap support
   const dropdowns = document.querySelectorAll(".dropdown > .dropbtn");
   dropdowns.forEach(btn => {
     btn.addEventListener("click", e => {
@@ -222,6 +230,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-// ---------- INIT 3D ----------
-window.addEventListener("load", init3D);
