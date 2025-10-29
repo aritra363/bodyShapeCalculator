@@ -163,10 +163,10 @@ if (calcBtn) {
     // Smooth scroll to result
     setTimeout(() => {
       bodyVisualizer.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 300);
+    }, 3500);
     setTimeout(() => {
       resultImg.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 3000);
+    }, 400);
 
     // Update front/back visualizer
     updateBodyVisualizer(result.type);

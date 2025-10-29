@@ -290,3 +290,61 @@ body{background:var(--bg);color:var(--text);line-height:1.45;overflow-x:hidden;}
     aspect-ratio:3/2;
   }
 }
+/* ---------- SEO Content Section ---------- */
+.seo-section {
+  background: #fafafa;
+  padding: 40px 20px;
+  margin-top: 40px;
+  border-top: 2px solid #eee;
+  font-family: 'Inter', sans-serif;
+}
+
+.seo-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  color: #333;
+  line-height: 1.7;
+}
+
+.seo-container h2 {
+  font-size: 1.8rem;
+  color: #d63384;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.seo-container h3 {
+  font-size: 1.4rem;
+  margin-top: 25px;
+  color: #333;
+}
+
+.seo-container p {
+  margin-bottom: 14px;
+  font-size: 1rem;
+}
+
+.seo-list {
+  margin: 10px 0 15px 25px;
+  list-style-type: disc;
+}
+
+.seo-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 20px;
+  font-style: italic;
+  border-top: 1px dashed #ccc;
+  padding-top: 10px;
+}
+
+/* Mobile-friendly adjustments */
+@media (max-width: 768px) {
+  .seo-container {
+    padding: 0 10px;
+  }
+
+  .seo-container h2 {
+    font-size: 1.5rem;
+  }
+}
