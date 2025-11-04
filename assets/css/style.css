@@ -104,7 +104,69 @@ body{background:var(--bg);color:var(--text);line-height:1.45;overflow-x:hidden;}
   padding:4px;
 }
 .ad-anchor-mobile{display:block;}
+.buttonlink {
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+.shine-button {
+  position: relative;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  min-width: 200px;
+}
 
+.shine-button::before {
+  content: '';
+  position: absolute;
+  height: 250%;
+  width: 40px;
+  top: 0;
+  left: -60px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: rotate(45deg) translateY(-35%);
+  animation: shine 3s ease infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -80px;
+  }
+  40% {
+    left: calc(100% + 20px);
+  }
+  100% {
+    left: calc(100% + 20px);
+  }
+}
+
+.button-sunset {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: #fff;
+  box-shadow: 
+    0 10px 30px rgba(240, 147, 251, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.button-sunset:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 15px 40px rgba(240, 147, 251, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
 /* --- Layout --- */
 .page-main{
   max-width:calc(100% - 300px);
